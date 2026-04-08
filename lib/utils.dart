@@ -14,6 +14,9 @@ final ResourceId defaultIcon = ResourceId(
   namespace: 'elysium',
 );
 
+CallOptions authOptions(String token) =>
+    CallOptions(metadata: <String, String>{'Authorization': token});
+
 class UserAuth {
   final String username;
   final String password;

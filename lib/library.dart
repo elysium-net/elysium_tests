@@ -87,9 +87,7 @@ class TestGroup {
         );
       }
 
-      adminOptions = CallOptions(
-        metadata: <String, String>{'Authorization': adminResponse.token},
-      );
+      adminOptions = authOptions(adminResponse.token);
     }
 
     logger.d('Authenticating as supervisor...');
@@ -107,9 +105,7 @@ class TestGroup {
         );
       }
 
-      supervisorOptions = CallOptions(
-        metadata: <String, String>{'Authorization': superResponse.token},
-      );
+      supervisorOptions = authOptions(superResponse.token);
     }
 
     logger.d('Authenticating as user...');
@@ -124,9 +120,7 @@ class TestGroup {
         );
       }
 
-      newUserOptions = CallOptions(
-        metadata: <String, String>{'Authorization': userResponse.token},
-      );
+      newUserOptions = authOptions(userResponse.token);
     }
   }
 
