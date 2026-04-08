@@ -94,7 +94,7 @@ packages:
     description:
       path: elysium_dart
       ref: HEAD
-      resolved-ref: bf4a4140f6554ba638c1c74d317e608f7db89163
+      resolved-ref: "561c1244d9c16d7e72c5cf0a4932b632302149d3"
       url: "https://github.com/elysium-net/elysium_proto.git"
     source: git
     version: "1.0.0"

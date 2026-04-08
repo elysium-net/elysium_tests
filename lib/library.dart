@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:elysium_dart/elysium_dart.dart';
+import 'package:elysium_dart/testing/v1/testing.pbgrpc.dart';
 import 'package:elysium_tests/utils.dart';
 import 'package:grpc/grpc.dart';
 import 'package:logger/logger.dart';
@@ -20,6 +21,7 @@ void registerGroup(TestGroup group) => groups[group.name] = group;
 
 class TestGroup {
   late final ClientChannel channel;
+  late final TestingServiceClient testing;
   late final UserServiceClient user;
   late final ChatServiceClient chat;
   late final ResourceServiceClient resource;
@@ -63,6 +65,9 @@ class TestGroup {
       port: int.parse(Platform.environment['GRPC_PORT'] ?? '50051'),
       options: const ChannelOptions(credentials: ChannelCredentials.insecure()),
     );
+
+    logger.d('Initializing testing service...');
+    testing = TestingServiceClient(channel);
 
     logger.d('Initializing user service...');
     user = UserServiceClient(channel);

@@ -1,3 +1,4 @@
+import 'package:elysium_dart/testing/v1/testing.pb.dart';
 import 'package:elysium_tests/library.dart';
 import 'package:elysium_tests/tests/user.dart';
 import 'package:grpc/grpc.dart';
@@ -60,6 +61,9 @@ Future<List<(String, bool)>> runTestGroup(String name) async {
 
       throw err;
     }
+
+    logger.i('Clearing server test state...');
+    await group.testing.clearState(ClearStateRequest());
 
     final List<(String, bool)> results = await group.run();
 
