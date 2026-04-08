@@ -17,9 +17,6 @@ class CreateUserTest extends Test<TestUser> {
   String get description => 'Create a new user';
 
   @override
-  Future<void> init(TestGroup group, TestUser _) async {}
-
-  @override
   Future<void> run(TestGroup group, TestUser user) async {
     final CreateUserResponse response = await group.user.createUser(
       CreateUserRequest(

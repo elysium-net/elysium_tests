@@ -42,9 +42,6 @@ class TestGroup {
     for (final (Test<dynamic> test, dynamic args) in tests) {
       final String name = test.getName(args);
       try {
-        logger.i("Initializing '$name'...");
-        await test.init(this, args);
-
         logger.i("Running '$name'...");
         await test.run(this, args);
 
@@ -144,8 +141,6 @@ abstract class Test<A> {
   String get identifier;
 
   String get description;
-
-  Future<void> init(TestGroup group, A args);
 
   Future<void> run(TestGroup group, A args);
 }
