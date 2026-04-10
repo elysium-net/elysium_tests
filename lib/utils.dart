@@ -29,6 +29,17 @@ enum TestUser {
   supervisor,
   newUser;
 
+  String get username {
+    switch (this) {
+      case TestUser.admin:
+        return adminUsername;
+      case TestUser.supervisor:
+        return supervisorUsername;
+      case TestUser.newUser:
+        return newUserUsername;
+    }
+  }
+
   CallOptions options(TestGroup group) {
     switch (this) {
       case TestUser.admin:

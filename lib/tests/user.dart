@@ -14,7 +14,7 @@ class UserTest extends Test<TestUser> {
   String get identifier => 'User';
 
   @override
-  String get description => 'Create a new user';
+  String get description => 'Various operations on users';
 
   @override
   Future<void> run(TestGroup group, TestUser user) async {

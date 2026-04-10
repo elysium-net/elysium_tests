@@ -1,5 +1,6 @@
 import 'package:elysium_dart/testing/v1/testing.pb.dart';
 import 'package:elysium_tests/library.dart';
+import 'package:elysium_tests/tests/chat.dart';
 import 'package:elysium_tests/tests/user.dart';
 import 'package:grpc/grpc.dart';
 
@@ -40,6 +41,7 @@ void main(List<String> args) async {
 
 void registerAll() {
   registerGroup(userTests);
+  registerGroup(chatTests);
 }
 
 Future<List<(String, bool)>> runTestGroup(String name) async {
