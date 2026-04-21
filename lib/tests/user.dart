@@ -29,7 +29,7 @@ class UserTest extends Test<TestUser> {
           email: 'foo@bar.baz',
           password: '123',
           role: UserRole.USER_ROLE_USER_UNSPECIFIED,
-          icon: defaultIcon,
+          icon: defaultUserIcon,
         ),
       ),
       options: user.options(group),

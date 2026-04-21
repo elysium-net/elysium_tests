@@ -1,10 +1,11 @@
 import 'dart:io';
 
 import 'package:elysium_dart/elysium_dart.dart';
-import 'package:elysium_dart/testing/v1/testing.pbgrpc.dart';
+import 'package:elysium_dart/general/v1/general.pbgrpc.dart';
 import 'package:elysium_tests/utils.dart';
 import 'package:grpc/grpc.dart';
 import 'package:logger/logger.dart';
+import 'package:yaml/yaml.dart';
 
 final Logger logger = Logger(
   filter: ProductionFilter(),
@@ -20,15 +21,18 @@ final Map<String, TestGroup> groups = <String, TestGroup>{};
 void registerGroup(TestGroup group) => groups[group.name] = group;
 
 class TestGroup {
+  late final String version;
+
   late final ClientChannel channel;
-  late final TestingServiceClient testing;
+  late final GeneralServiceClient general;
   late final UserServiceClient user;
   late final ChatServiceClient chat;
   late final ResourceServiceClient resource;
+  late final GetConfigResponse config;
 
-  late CallOptions adminOptions;
-  late CallOptions supervisorOptions;
-  late CallOptions newUserOptions;
+  late final CallOptions adminOptions;
+  late final CallOptions supervisorOptions;
+  late final CallOptions newUserOptions;
 
   final String name;
   final String description;
@@ -56,6 +60,13 @@ class TestGroup {
   }
 
   Future<void> init() async {
+    logger.d('Getting package version...');
+    {
+      final String pubspec = await File('pubspec.yaml').readAsString();
+      final YamlMap yaml = loadYaml(pubspec) as YamlMap;
+      version = yaml['version'] as String;
+    }
+
     logger.d('Initializing channels...');
     channel = ClientChannel(
       Platform.environment['GRPC_HOST'] ?? '127.0.0.1',
@@ -63,8 +74,8 @@ class TestGroup {
       options: const ChannelOptions(credentials: ChannelCredentials.insecure()),
     );
 
-    logger.d('Initializing testing service...');
-    testing = TestingServiceClient(channel);
+    logger.d('Initializing general service...');
+    general = GeneralServiceClient(channel);
 
     logger.d('Initializing user service...');
     user = UserServiceClient(channel);
@@ -75,10 +86,13 @@ class TestGroup {
     logger.d('Initializing resource service...');
     resource = ResourceServiceClient(channel);
 
+    logger.d('Clearing server state...');
+    await general.clearState(ClearStateRequest());
+
     logger.d('Authenticating as admin...');
     {
       final AuthUserResponse adminResponse = await user.authUser(
-        AuthUserRequest(userId: adminUsername, password: adminPassword),
+        AuthUserRequest(userId: adminUserId, password: adminPassword),
       );
 
       if (adminResponse.hasError()) {
@@ -93,10 +107,7 @@ class TestGroup {
     logger.d('Authenticating as supervisor...');
     {
       final AuthUserResponse superResponse = await user.authUser(
-        AuthUserRequest(
-          userId: supervisorUsername,
-          password: supervisorPassword,
-        ),
+        AuthUserRequest(userId: supervisorUserId, password: supervisorPassword),
       );
 
       if (superResponse.hasError()) {
@@ -111,7 +122,7 @@ class TestGroup {
     logger.d('Authenticating as user...');
     {
       final AuthUserResponse userResponse = await user.authUser(
-        AuthUserRequest(userId: newUserUsername, password: newUserPassword),
+        AuthUserRequest(userId: newUserUserId, password: newUserPassword),
       );
 
       if (userResponse.hasError()) {
@@ -121,6 +132,30 @@ class TestGroup {
       }
 
       newUserOptions = authOptions(userResponse.token);
+    }
+
+    logger.d('Validating configuration...');
+    {
+      final GetConfigResponse config = await general.getConfig(
+        GetConfigRequest(),
+      );
+
+      assert(
+        config.allowMessageDelete == UserRole.USER_ROLE_SUPERVISOR,
+        'allowMessageDelete is not set to SUPERVISOR',
+      );
+
+      assert(
+        config.allowMessageUpdate == UserRole.USER_ROLE_SUPERVISOR,
+        'allowMessageUpdate is not set to SUPERVISOR',
+      );
+
+      assert(
+        config.version == version,
+        'Package version and server version do not match',
+      );
+
+      this.config = config;
     }
   }
 

@@ -1,18 +1,12 @@
-import 'package:elysium_dart/resource/v1/resource.pb.dart';
 import 'package:elysium_tests/library.dart';
 import 'package:grpc/grpc.dart';
 
-const String adminUsername = 'admin';
+const String adminUserId = 'admin';
 const String adminPassword = 'admin';
-const String supervisorUsername = 'supervisor';
+const String supervisorUserId = 'supervisor';
 const String supervisorPassword = 'supervisor';
-const String newUserUsername = 'user';
+const String newUserUserId = 'user';
 const String newUserPassword = 'user';
-
-final ResourceId defaultIcon = ResourceId(
-  key: 'default_icon',
-  namespace: 'elysium',
-);
 
 CallOptions authOptions(String token) =>
     CallOptions(metadata: <String, String>{'Authorization': token});
@@ -29,14 +23,14 @@ enum TestUser {
   supervisor,
   newUser;
 
-  String get username {
+  String get userId {
     switch (this) {
       case TestUser.admin:
-        return adminUsername;
+        return adminUserId;
       case TestUser.supervisor:
-        return supervisorUsername;
+        return supervisorUserId;
       case TestUser.newUser:
-        return newUserUsername;
+        return newUserUserId;
     }
   }
 
@@ -48,6 +42,14 @@ enum TestUser {
         return group.supervisorOptions;
       case TestUser.newUser:
         return group.newUserOptions;
+    }
+  }
+}
+
+extension ChunkedList<T> on List<T> {
+  Iterable<List<T>> chunked(int size) sync* {
+    for (int i = 0; i < length; i += size) {
+      yield sublist(i, i + size > length ? length : i + size);
     }
   }
 }

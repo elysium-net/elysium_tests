@@ -1,8 +1,7 @@
-import 'package:elysium_dart/testing/v1/testing.pb.dart';
 import 'package:elysium_tests/library.dart';
 import 'package:elysium_tests/tests/chat.dart';
+import 'package:elysium_tests/tests/resource.dart';
 import 'package:elysium_tests/tests/user.dart';
-import 'package:grpc/grpc.dart';
 
 void main(List<String> args) async {
   registerAll();
@@ -42,6 +41,7 @@ void main(List<String> args) async {
 void registerAll() {
   registerGroup(userTests);
   registerGroup(chatTests);
+  registerGroup(resourceTests);
 }
 
 Future<List<(String, bool)>> runTestGroup(String name) async {
@@ -54,18 +54,7 @@ Future<List<(String, bool)>> runTestGroup(String name) async {
   } else {
     logger.i('Initializing test group ${group.name}...');
 
-    try {
-      await group.init();
-    } on GrpcError catch (err) {
-      if (err.codeName == 'UNAVAILABLE') {
-        logger.f('The gRPC service is not running!');
-      }
-
-      throw err;
-    }
-
-    logger.i('Clearing server test state...');
-    await group.testing.clearState(ClearStateRequest());
+    await group.init();
 
     final List<(String, bool)> results = await group.run();
 
@@ -90,6 +79,7 @@ void printResults(final List<(String, bool)> results) {
       failed++;
     }
   }
+
   final int percentage = ((passed / (passed + failed)) * 100).round();
 
   logger.i('Passed $passed tests, failed $failed tests, $percentage% passed');

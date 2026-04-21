@@ -25,12 +25,9 @@ class ChatTest extends Test<ChannelPermission> {
         name: 'Some channel',
         description: 'Some channel',
         members: <MapEntry<String, ChannelPermission>>[
-          MapEntry<String, ChannelPermission>(TestUser.admin.username, perm),
-          MapEntry<String, ChannelPermission>(
-            TestUser.supervisor.username,
-            perm,
-          ),
-          MapEntry<String, ChannelPermission>(TestUser.newUser.username, perm),
+          MapEntry<String, ChannelPermission>(TestUser.admin.userId, perm),
+          MapEntry<String, ChannelPermission>(TestUser.supervisor.userId, perm),
+          MapEntry<String, ChannelPermission>(TestUser.newUser.userId, perm),
         ],
       ),
       options: group.adminOptions,
@@ -124,7 +121,7 @@ class ChatTest extends Test<ChannelPermission> {
     );
 
     assert(
-      readMessagesResponse.messages.first.content == 'Hello World!',
+      readMessagesResponse.messages.first.content.text == 'Hello World!',
       'Failed to read first message: ${readMessagesResponse.messages}',
     );
 

@@ -1,2 +1,2 @@
 #!/bin/bash
-dart run bin/elysium_tests.dart "$@"
+dart run --enable-asserts bin/elysium_tests.dart "$@"

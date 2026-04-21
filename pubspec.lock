@@ -5,18 +5,18 @@ packages:
     dependency: transitive
     description:
       name: _fe_analyzer_shared
-      sha256: "8d718c5c58904f9937290fd5dbf2d6a0e02456867706bfb6cd7b81d394e738d5"
+      sha256: a49d6cf99e8d8e7a8e93668d09ced0bbdb954d0b4fccc2f5f9241c6b87fad95c
       url: "https://pub.dev"
     source: hosted
-    version: "98.0.0"
+    version: "99.0.0"
   analyzer:
     dependency: transitive
     description:
       name: analyzer
-      sha256: "6141ad5d092d1e1d13929c0504658bbeccc1703505830d7c26e859908f5efc88"
+      sha256: "663efa951fb8a45e06f491223a604c93820598f20e6a99c25617a1576065e8b7"
       url: "https://pub.dev"
     source: hosted
-    version: "12.0.0"
+    version: "12.1.0"
   args:
     dependency: transitive
     description:
@@ -94,7 +94,7 @@ packages:
     description:
       path: elysium_dart
       ref: HEAD
-      resolved-ref: e8cecbf471222567694ecac1d6d9e5586fc2ae66
+      resolved-ref: "67e872da57a6383a3aee23bd3bac68edaf2f9f3d"
       url: "https://github.com/elysium-net/elysium_proto.git"
     source: git
     version: "1.0.0"
@@ -134,10 +134,10 @@ packages:
     dependency: transitive
     description:
       name: google_cloud
-      sha256: ea0874a719de9972bcc44383398322c3cf19384c8bc1cee109e8368b8f70454e
+      sha256: fbcde933b2d8600c3cdb2328f8f4c47628ec29a39e9cef85dee535c7868993c4
       url: "https://pub.dev"
     source: hosted
-    version: "0.4.0"
+    version: "0.4.1"
   google_identity_services_web:
     dependency: transitive
     description:
@@ -150,10 +150,10 @@ packages:
     dependency: transitive
     description:
       name: googleapis_auth
-      sha256: "0e24e0f892974b30f513efa1c26280f9acea8bca84a88aadf00e4046beb0e931"
+      sha256: "661738b763d3e524de69df53bf4e03943e4e01e98265cebcc6684871b06a5379"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.1"
+    version: "2.3.0"
   grpc:
     dependency: "direct main"
     description:
@@ -422,10 +422,10 @@ packages:
     dependency: transitive
     description:
       name: vm_service
-      sha256: "45caa6c5917fa127b5dbcfbd1fa60b14e583afdc08bfc96dda38886ca252eb60"
+      sha256: "046d3928e16fa4dc46e8350415661755ab759d9fc97fc21b5ab295f71e4f0499"
       url: "https://pub.dev"
     source: hosted
-    version: "15.0.2"
+    version: "15.1.0"
   watcher:
     dependency: transitive
     description:
@@ -467,7 +467,7 @@ packages:
     source: hosted
     version: "1.2.1"
   yaml:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: yaml
       sha256: b9da305ac7c39faa3f030eccd175340f968459dae4af175130b3fc47e40d76ce
