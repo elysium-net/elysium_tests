@@ -28,14 +28,25 @@ class ResourceTest extends Test<ChannelPermission> {
 
   @override
   Future<void> run(TestGroup group, ChannelPermission perm) async {
+    final ResourceId userAvatarId = ResourceId(
+      namespace: 'user.${TestUser.admin.userId}',
+      key: 'avatar.png',
+    );
+
+    final GetResourceMetaResponse resourceMetaResponse = await group.resource
+        .getResourceMeta(
+          GetResourceMetaRequest(resourceId: userAvatarId),
+          options: group.newUserOptions,
+        );
+
+    assert(
+      !resourceMetaResponse.hasError(),
+      'Failed to get user avatar meta: ${resourceMetaResponse.error}',
+    );
+
     final List<DownloadResponse> avatarResponse = await group.resource
         .download(
-          DownloadRequest(
-            resourceId: ResourceId(
-              namespace: 'user.${TestUser.admin.userId}',
-              key: 'avatar.png',
-            ),
-          ),
+          DownloadRequest(resourceId: userAvatarId),
           options: group.newUserOptions,
         )
         .toList();
